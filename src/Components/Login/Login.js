@@ -13,7 +13,7 @@ function Login() {
           </div>
           {/* Additional login text with a link to Sign Up page */}
           <div className="login-text">
-            Are you a new member? <span><a href="../Sign_Up/Sign_Up.html" style={{ color: "#2190FF;" }}> Sign Up Here</a></span>
+            Are you a new member? <span><a href="/sign-up" style={{ color: "#2190FF" }}> Sign Up Here</a></span>
           </div>
           <br />
           {/* Div for login form */}

@@ -39,7 +39,7 @@ function Navbar() {
                 {/* Navigation Item 'Home' */}
                 <li className="nav_item">
                     {/* Navigation Item Link */}
-                    <a href={"../Landing_Page/LandingPage.html"}>Home</a>
+                    <a href={"/"}>Home</a>
                 </li>
                 {/* Navigation Item 'Appointments' */}
                 <li className="nav_item">
@@ -49,14 +49,14 @@ function Navbar() {
                 {/* Navigation Item Sign Up */}
                 <li className="nav_item">
                     {/* Navigation Item Link */}
-                    <a href={"../Sign_up/Sign_up.html"}>
+                    <a href={"/sign-up"}>
                         <button className="btn1">Sign Up</button>
                     </a>
                 </li>
                 {/* Navigation Item Login */}
                 <li className="nav_item">
                     {/* Navigation Item Link */}
-                    <a href={"../Login/Login.html"}>
+                    <a href={"/login"}>
                         <button className="btn1">Login</button>
                     </a>
                 </li>

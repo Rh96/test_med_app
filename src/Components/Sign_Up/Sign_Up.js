@@ -1,10 +1,54 @@
-import React from 'react';
+import { useState } from 'react';
 import './Sign_Up.css';
 
 function Sign_Up() {
+  // Set variables
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  // Error messages  
+  const [nameErrMsg, setNameErrMsg] = useState('');
+  const [phoneErrMsg, setPhoneErrMsg] = useState('');
+  const [emailErrMsg, setEmailErrMsg] = useState('');
+
+    // Submit
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        if (name.trim() === '') {
+            setNameErrMsg('Name is required!');
+        } else {
+            setNameErrMsg('');
+        }
+
+        if (phone.trim() === '') {
+            setPhoneErrMsg('Phone number is required!');
+        } else if (!/^\+?[0-9\s\-()]{7,10}$/.test(phone)) {
+            setPhoneErrMsg('Invalid phone number format!');
+        } else {
+            setPhoneErrMsg('');
+        }
+
+        if (email.trim() === '') {
+            setEmailErrMsg('Email is required!');
+          }   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setEmailErrMsg('Invalid email format!');
+        } else {
+            setEmailErrMsg('');
+        }
+    }
+    
+
+  // Reset form
+  const handleReset = () => {
+    // Add later logic for handling when reseting form
+  };
+  
   return (
     // Main container with margin-top
-    <div className="container" style={{ marginTop: "5%;" }}>
+    <div className="container" style={{ marginTop: "5%" }}>
         {/* Grid layout for sign-up form */}
         <div className="signup-grid">
             {/* Title for the sign-up form */}
@@ -12,19 +56,34 @@ function Sign_Up() {
                 <h1>Sign Up</h1>
             </div>
             {/* Text for existing members to log in */}
-            <div className="signup-text1" style={{ textAlign: "left;" }}>
-                Already a member? <span><a href="../Login/Login.html" style={{ color: "#2190FF;" }}> Login</a></span>
+            <div className="signup-text1" style={{ textAlign: "left" }}>
+                Already a member? <span><a href="/login" style={{ color: "#2190FF" }}> Login</a></span>
             </div>
             {/* Form for user sign-up */}
             <div className="signup-form">
                 {/* Start of the form */}
-                <form>
+                <form onSubmit={handleSubmit}>
                     {/* Form group for user's name */}
                     <div className="form-group">
                         {/* Label for name input field */}
                         <label for="name">Name</label>
                         {/* Text input field for name */}
-                        <input type="text" name="name" id="name" required className="form-control" placeholder="Enter your name" aria-describedby="helpId" />
+                        <input 
+                            type="text"
+                            name="name"
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="form-control"
+                            placeholder="Enter your name"
+                            aria-describedby="helpId"
+                        />
+                        {nameErrMsg && (
+                            <>
+                                <br />
+                                <span style={{ color: "red" }}>{nameErrMsg}</span>
+                            </>
+                        )}
                     </div>
 
                     {/* Form group for user's phone number */}
@@ -32,7 +91,22 @@ function Sign_Up() {
                         {/* Label for phone input field */}
                         <label for="phone">Phone</label>
                         {/* Tel input field for phone number */}
-                        <input type="tel" name="phone" id="phone" required className="form-control" placeholder="Enter your phone number" aria-describedby="helpId" />
+                        <input
+                            type="tel"
+                            name="phone"
+                            id="phone"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="form-control"
+                            placeholder="Enter your phone number"
+                            aria-describedby="helpId"
+                        />
+                        {phoneErrMsg && (
+                            <>
+                                <br />
+                                <span style={{ color: "red" }}>{phoneErrMsg}</span>
+                            </>
+                        )}
                     </div>
 
                     {/* Form group for user's email */}
@@ -40,7 +114,22 @@ function Sign_Up() {
                         {/* Label for email input field */}
                         <label for="email">Email</label>
                         {/* Email input field */}
-                        <input type="email" name="email" id="email" required className="form-control" placeholder="Enter your email" aria-describedby="helpId" />
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="form-control"
+                            placeholder="Enter your email"
+                            aria-describedby="helpId"
+                        />
+                        {emailErrMsg && (
+                            <>
+                                <br />
+                                <span style={{ color: "red" }}>{emailErrMsg}</span>
+                            </>
+                        )}
                     </div>
 
                     {/* Form group for user's password */}
@@ -48,7 +137,7 @@ function Sign_Up() {
                         {/* Label for password input field */}
                         <label for="password">Password</label>
                         {/* Password input field */}
-                        <input name="password" id="password" required className="form-control" placeholder="Enter your password" aria-describedby="helpId" />
+                        <input name="password" id="password" className="form-control" placeholder="Enter your password" aria-describedby="helpId" />
                     </div>
 
                     {/* Button group for form submission and reset */}
