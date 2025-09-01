@@ -1,60 +1,59 @@
-import { useState } from 'react';
-import './Sign_Up.css';
+// Following code has been commented with appropriate comments for your reference.
+import React, { useState } from 'react';
+import './Sign_Up.css'
+import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
-function Sign_Up() {
-  // Set variables
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
-  // Error messages  
-  const [nameErrMsg, setNameErrMsg] = useState('');
-  const [phoneErrMsg, setPhoneErrMsg] = useState('');
-  const [emailErrMsg, setEmailErrMsg] = useState('');
-  const [passwordErrMsg, setPasswordErrMsg] = useState('');
+// Function component for Sign Up form
+const Sign_Up = () => {
+    // State variables using useState hook
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [showerr, setShowerr] = useState(''); // State to show error messages
+    const navigate = useNavigate(); // Navigation hook from react-router
 
-    // Register
-    const handleRegister = (e) => {
-        e.preventDefault();
-        
-        // Name field validation
-        if (name.trim() === '') {
-            setNameErrMsg('Name is required');
-        } else {
-            setNameErrMsg('');
-        }
-        
-        // Phone number validation
-        const cleaned = phone.replace(/\D/g, ''); // remove spaces, dashes, etc.
+    // Function to handle form submission
+    const register = async (e) => {
+        e.preventDefault(); // Prevent default form submission
 
-        if (phone.trim() === '') {
-            setPhoneErrMsg('Phone number is required');
-        } else if (!/^\d{10}$/.test(cleaned)) {
-            setPhoneErrMsg('Phone number must be exactly 10 digits');
-        } else {
-            setPhoneErrMsg('');
-        }
-        
-        // Email validation
-        if (email.trim() === '') {
-            setEmailErrMsg('Email is required');
-          }   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setEmailErrMsg('Invalid email format');
-        } else {
-            setEmailErrMsg('');
-        }
+        // API Call to register user
+        const response = await fetch(`${API_URL}/api/auth/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password,
+                phone: phone,
+            }),
+        });
 
-        // Password validation
-        if (password.trim() === '') {
-            setPasswordErrMsg('Password is required');
-        } else if (!/^(?=.*[A-Z])(?=.*[1-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password)) {
-            setPasswordErrMsg('Password must contain at least 1 uppercase, 1 digit (1–9), and 1 special character');
+        const json = await response.json(); // Parse the response JSON
+
+        if (json.authtoken) {
+            // Store user data in session storage
+            sessionStorage.setItem("auth-token", json.authtoken);
+            sessionStorage.setItem("name", name);
+            sessionStorage.setItem("phone", phone);
+            sessionStorage.setItem("email", email);
+
+            // Redirect user to home page
+            navigate("/");
+            window.location.reload(); // Refresh the page
         } else {
-            setPasswordErrMsg('');
+            if (json.errors) {
+                for (const error of json.errors) {
+                    setShowerr(error.msg); // Show error messages
+                }
+            } else {
+                setShowerr(json.error);
+            }
         }
-    }
-    
+    };
 
     // Reset form
     const handleReset = () => {
@@ -62,136 +61,61 @@ function Sign_Up() {
         setPhone('');
         setEmail('');
         setPassword('');
-
-        // Reset error messages
-        setNameErrMsg('');
-        setPhoneErrMsg('');
-        setEmailErrMsg('');
-        setPasswordErrMsg('');
     };
-  
-  return (
-    // Main container with margin-top
-    <div className="container" style={{ marginTop: "5%" }}>
-        {/* Grid layout for sign-up form */}
-        <div className="signup-grid">
-            {/* Title for the sign-up form */}
-            <div className="signup-text">
-                <h1>Sign Up</h1>
+
+    // JSX to render the Sign Up form
+    return (
+        <>
+            <div className="container" style={{marginTop:'5%'}}>
+                <div className="signup-grid">
+                    {/* Title for the sign-up form */}
+                    <div className="signup-text">
+                        <h1>Sign Up</h1>
+                    </div>
+                    {/* Text for existing members to log in */}
+                    <div className="signup-text1" style={{ textAlign: "left" }}>
+                        Already a member? <span><a href="/login" style={{ color: "#2190FF" }}> Login</a></span>
+                    </div>
+                    <div className="signup-form">
+                        <form method="POST" onSubmit={register}>
+                            <div className="form-group">
+                                <label htmlFor="name">Name</label>
+                                <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" className="form-control" placeholder="Enter your name" aria-describedby="helpId" />
+                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                            </div>
+                            
+                            <div className="form-group">
+                                <label htmlFor="phone">Phone</label>
+                                <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" name="phone" id="phone" className="form-control" placeholder="Enter your phone number" aria-describedby="helpId" />
+                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="email">Email</label>
+                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" className="form-control" placeholder="Enter your email" aria-describedby="helpId" />
+                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Password</label>
+                                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" name="password" id="password" className="form-control" placeholder="Enter your password" aria-describedby="helpId" />
+                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                            </div>
+                            {/* Apply similar logic for other form elements like name, phone, and password to capture user information */}
+
+                            {/* Button group for form submission and reset */}
+                            <div className="btn-group">
+                                {/* Submit button */}
+                                <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">Submit</button>
+                                {/* Reset button */}
+                                <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light" onClick={handleReset}>Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            {/* Text for existing members to log in */}
-            <div className="signup-text1" style={{ textAlign: "left" }}>
-                Already a member? <span><a href="/login" style={{ color: "#2190FF" }}> Login</a></span>
-            </div>
-            {/* Form for user sign-up */}
-            <div className="signup-form">
-                {/* Start of the form */}
-                <form onSubmit={handleRegister}>
-                    {/* Form group for user's name */}
-                    <div className="form-group">
-                        {/* Label for name input field */}
-                        <label for="name">Name</label>
-                        {/* Text input field for name */}
-                        <input 
-                            type="text"
-                            name="name"
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="form-control"
-                            placeholder="Enter your name"
-                            aria-describedby="helpId"
-                        />
-                        {nameErrMsg && (
-                            <>
-                                <br />
-                                <span style={{ color: "red" }}>{nameErrMsg}</span>
-                            </>
-                        )}
-                    </div>
-
-                    {/* Form group for user's phone number */}
-                    <div className="form-group">
-                        {/* Label for phone input field */}
-                        <label for="phone">Phone</label>
-                        {/* Tel input field for phone number */}
-                        <input
-                            type="tel"
-                            name="phone"
-                            id="phone"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            className="form-control"
-                            placeholder="Enter your phone number"
-                            aria-describedby="helpId"
-                        />
-                        {phoneErrMsg && (
-                            <>
-                                <br />
-                                <span style={{ color: "red" }}>{phoneErrMsg}</span>
-                            </>
-                        )}
-                    </div>
-
-                    {/* Form group for user's email */}
-                    <div className="form-group">
-                        {/* Label for email input field */}
-                        <label for="email">Email</label>
-                        {/* Email input field */}
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="form-control"
-                            placeholder="Enter your email"
-                            aria-describedby="helpId"
-                        />
-                        {emailErrMsg && (
-                            <>
-                                <br />
-                                <span style={{ color: "red" }}>{emailErrMsg}</span>
-                            </>
-                        )}
-                    </div>
-
-                    {/* Form group for user's password */}
-                    <div className="form-group">
-                        {/* Label for password input field */}
-                        <label for="password">Password</label>
-                        {/* Password input field */}
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control"
-                            placeholder="Enter your password"
-                            aria-describedby="helpId"
-                        />
-                        {passwordErrMsg && (
-                            <>
-                                <br />
-                                <span style={{ color: "red" }}>{passwordErrMsg}</span>
-                            </>
-                        )}
-                    </div>
-
-                    {/* Button group for form submission and reset */}
-                    <div className="btn-group">
-                        {/* Submit button */}
-                        <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">Submit</button>
-                        {/* Reset button */}
-                        <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light" onClick={handleReset}>Reset</button>
-                    </div>
-                </form>
-                {/* End of the form */}
-            </div>
-        </div>
-    </div>
-  )
+            {/* Note: Sign up role is not stored in the database. Additional logic can be implemented for this based on your React code. */}
+        </>
+    )
 }
 
-export default Sign_Up
+export default Sign_Up; // Export the Sign_Up component for use in other components
