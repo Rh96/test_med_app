@@ -12,39 +12,63 @@ function Sign_Up() {
   const [nameErrMsg, setNameErrMsg] = useState('');
   const [phoneErrMsg, setPhoneErrMsg] = useState('');
   const [emailErrMsg, setEmailErrMsg] = useState('');
+  const [passwordErrMsg, setPasswordErrMsg] = useState('');
 
-    // Submit
-    const handleSubmit = (e) => {
+    // Register
+    const handleRegister = (e) => {
         e.preventDefault();
         
+        // Name field validation
         if (name.trim() === '') {
-            setNameErrMsg('Name is required!');
+            setNameErrMsg('Name is required');
         } else {
             setNameErrMsg('');
         }
+        
+        // Phone number validation
+        const cleaned = phone.replace(/\D/g, ''); // remove spaces, dashes, etc.
 
         if (phone.trim() === '') {
-            setPhoneErrMsg('Phone number is required!');
-        } else if (!/^\+?[0-9\s\-()]{7,10}$/.test(phone)) {
-            setPhoneErrMsg('Invalid phone number format!');
+            setPhoneErrMsg('Phone number is required');
+        } else if (!/^\d{10}$/.test(cleaned)) {
+            setPhoneErrMsg('Phone number must be exactly 10 digits');
         } else {
             setPhoneErrMsg('');
         }
-
+        
+        // Email validation
         if (email.trim() === '') {
-            setEmailErrMsg('Email is required!');
+            setEmailErrMsg('Email is required');
           }   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setEmailErrMsg('Invalid email format!');
+            setEmailErrMsg('Invalid email format');
         } else {
             setEmailErrMsg('');
+        }
+
+        // Password validation
+        if (password.trim() === '') {
+            setPasswordErrMsg('Password is required');
+        } else if (!/^(?=.*[A-Z])(?=.*[1-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password)) {
+            setPasswordErrMsg('Password must contain at least 1 uppercase, 1 digit (1–9), and 1 special character');
+        } else {
+            setPasswordErrMsg('');
         }
     }
     
 
-  // Reset form
-  const handleReset = () => {
-    // Add later logic for handling when reseting form
-  };
+    // Reset form
+    const handleReset = () => {
+        setName('');
+        setPhone('');
+        setEmail('');
+        setPassword('');
+
+        // Reset error messages
+        setNameErrMsg('');
+        setPhoneErrMsg('');
+        setEmailErrMsg('');
+        setPasswordErrMsg('');
+    };
   
   return (
     // Main container with margin-top
@@ -62,7 +86,7 @@ function Sign_Up() {
             {/* Form for user sign-up */}
             <div className="signup-form">
                 {/* Start of the form */}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleRegister}>
                     {/* Form group for user's name */}
                     <div className="form-group">
                         {/* Label for name input field */}
@@ -137,7 +161,22 @@ function Sign_Up() {
                         {/* Label for password input field */}
                         <label for="password">Password</label>
                         {/* Password input field */}
-                        <input name="password" id="password" className="form-control" placeholder="Enter your password" aria-describedby="helpId" />
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="form-control"
+                            placeholder="Enter your password"
+                            aria-describedby="helpId"
+                        />
+                        {passwordErrMsg && (
+                            <>
+                                <br />
+                                <span style={{ color: "red" }}>{passwordErrMsg}</span>
+                            </>
+                        )}
                     </div>
 
                     {/* Button group for form submission and reset */}
@@ -145,7 +184,7 @@ function Sign_Up() {
                         {/* Submit button */}
                         <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">Submit</button>
                         {/* Reset button */}
-                        <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light">Reset</button>
+                        <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light" onClick={handleReset}>Reset</button>
                     </div>
                 </form>
                 {/* End of the form */}
