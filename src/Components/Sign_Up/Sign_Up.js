@@ -11,7 +11,7 @@ const Sign_Up = () => {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [showerr, setShowerr] = useState(''); // State to show error messages
+    const [showerr, setShowerr] = useState({}); // State to show error messages
     const navigate = useNavigate(); // Navigation hook from react-router
 
     // Function to handle form submission
@@ -46,11 +46,13 @@ const Sign_Up = () => {
             window.location.reload(); // Refresh the page
         } else {
             if (json.errors) {
+                const newErrors = {};
                 for (const error of json.errors) {
-                    setShowerr(error.msg); // Show error messages
+                    newErrors[error.param] = error.msg
+                    setShowerr(newErrors); // Show error messages
                 }
             } else {
-                setShowerr(json.error);
+                setShowerr({});
             }
         }
     };
@@ -81,24 +83,24 @@ const Sign_Up = () => {
                             <div className="form-group">
                                 <label htmlFor="name">Name</label>
                                 <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" className="form-control" placeholder="Enter your name" aria-describedby="helpId" />
-                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                                {showerr.name && <div className="err" style={{ color: 'red' }}>{showerr.name}</div>}
                             </div>
                             
                             <div className="form-group">
                                 <label htmlFor="phone">Phone</label>
                                 <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" name="phone" id="phone" className="form-control" placeholder="Enter your phone number" aria-describedby="helpId" />
-                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                                {showerr.phone && <div className="err" style={{ color: 'red' }}>{showerr.phone}</div>}
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
                                 <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" className="form-control" placeholder="Enter your email" aria-describedby="helpId" />
-                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                                {showerr.email && <div className="err" style={{ color: 'red' }}>{showerr.email}</div>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
                                 <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" name="password" id="password" className="form-control" placeholder="Enter your password" aria-describedby="helpId" />
-                                {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
+                                {showerr.password && <div className="err" style={{ color: 'red' }}>{showerr.password}</div>}
                             </div>
                             {/* Apply similar logic for other form elements like name, phone, and password to capture user information */}
 

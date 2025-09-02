@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -10,11 +11,34 @@ const Navbar = () => {
     // With this we check if any user is logged in or not
     // True -> if the user is logged in, False -> if the user is logged out
     const [loginStatus, setLoginStatus] = useState(false);
+    const [username, setUsername] = useState('');
+    const navigate = useNavigate(); // Navigation hook from react-router
 
-    // If there is auth-token handle navbar changes
-    if (sessionStorage.getItem('auth-token')) {
-        setLoginStatus(true);
-    }
+    useEffect(() => {
+        const token = sessionStorage.getItem("auth-token");
+        const email = sessionStorage.getItem("email");
+        
+        if (token) {
+            setLoginStatus(true);
+            if (email) {
+              setUsername(email.split("@")[0]);
+            }
+        } else {
+            setLoginStatus(false);
+            setUsername("");
+        }
+    }, []);
+
+    // Handle Logout
+    const handleLogout = () => {
+        sessionStorage.removeItem("auth-token");
+        sessionStorage.removeItem("name");
+        sessionStorage.removeItem("phone");
+        sessionStorage.removeItem("email"); // optional if you store it
+        setLoginStatus(false);
+        setUsername(""); // reset username
+        navigate("/"); // send them to homepage
+    };
 
     return (
         <div>
@@ -68,7 +92,7 @@ const Navbar = () => {
                                 <button className="btn1">Sign Up</button>
                             </a>
                         ) : (
-                            'Welcome, Rade'
+                            `Welcome, ${username}`
                         )}
                     </li>
                     {/* Navigation Item Login/Logout */}
@@ -79,8 +103,8 @@ const Navbar = () => {
                                 <button className="btn1">Login</button>
                             </a>
                         ) : (
-                            <a href={"/login"}>
-                                <button className="btn1">Logout</button>
+                            <a>
+                                <button className="btn1" onClick={handleLogout}>Logout</button>
                             </a>
                         )}
                     </li>
