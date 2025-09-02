@@ -88,13 +88,23 @@ const Navbar = () => {
                     <li className="nav_item">
                         {/* Navigation Item Link */}
                         {!loginStatus ? (
-                            <a href={"/sign-up"}>
+                            <a href={"/signup"}>
                                 <button className="btn1">Sign Up</button>
                             </a>
                         ) : (
                             `Welcome, ${username}`
                         )}
                     </li>
+                    {/* Navigation Item 'Instant Consultation' */}
+                    {loginStatus ? (
+                        <li className="nav_item">
+                            <a href={"/instant-consultation"}>
+                                <button className="btn1">Instant Consultation</button>
+                            </a>
+                        </li>
+                    ) : (
+                        <></>
+                    )}
                     {/* Navigation Item Login/Logout */}
                     <li className="nav_item">
                         {/* Navigation Item Link */}
