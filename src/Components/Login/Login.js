@@ -1,110 +1,130 @@
-import { useState } from 'react'
-import './Login.css';
+// Following code has been commented with appropriate comments for your reference.
+import React, { useState, useEffect } from 'react';
+// Apply CSS according to your design theme or the CSS provided in week 2 lab 2
 
-function Login() {
-  // Set Variables
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
-  // Error messages
-  const [emailErrMsg, setEmailErrMsg] = useState('');
-  const [passwordErrMsg, setPasswordErrMsg] = useState('');
+const Login = () => {
 
-    // Login
-    const handleLogin = (e) => {
+    // State variables for email and password
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState('');
+    const [showerr, setShowerr] = useState({}); // State to show error messages
+
+    // Get navigation function from react-router-dom
+    const navigate = useNavigate();
+
+    // Check if user is already authenticated, then redirect to home page
+    useEffect(() => {
+        if (sessionStorage.getItem("auth-token")) {
+            navigate("/");
+        }
+    }, []);
+
+    // Function to handle login form submission
+    const login = async (e) => {
         e.preventDefault();
+        // Send a POST request to the login API endpoint
+        const res = await fetch(`${API_URL}/api/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
 
-        // Email validation
-        if (email.trim() === '') {
-            setEmailErrMsg('Email is required');
-        }   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setEmailErrMsg('Invalid email format');
+        // Parse the response JSON
+        const json = await res.json();
+        if (json.authtoken) {
+            // If authentication token is received, store it in session storage
+            sessionStorage.setItem('auth-token', json.authtoken);
+            sessionStorage.setItem('email', email);
+
+            // Redirect to home page and reload the window
+            navigate('/');
+            window.location.reload();
         } else {
-            setEmailErrMsg('');
+            // Handle errors if authentication fails
+            if (json.errors) {
+                const newErrors = {};
+                for (const error of json.errors) {
+                    newErrors[error.param] = error.msg
+                    setShowerr(newErrors); // Show error messages
+                }
+            } else {
+                setShowerr({});
+            }
         }
-
-        // Password validation
-        if (password.trim() === '') {
-            setPasswordErrMsg('Password is required');
-        } else if (!/^(?=.*[A-Z])(?=.*[1-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password)) {
-            setPasswordErrMsg('Password must contain at least 1 uppercase, 1 digit (1–9), and 1 special character');
-        } else {
-            setPasswordErrMsg('');
-        }
-    }
-
+    };
 
     // Reset form
     const handleReset = () => {
         setEmail('');
         setPassword('');
-
-        // Reset error messages
-        setEmailErrMsg('');
-        setPasswordErrMsg('');
     };
 
   return (
-    // Main container div for the page content
-    <div className="container">
-        {/* Div for login grid layout */}
+    <div>
+      <div className="container">
         <div className="login-grid">
-          {/* Div for login text */}
           <div className="login-text">
             <h2>Login</h2>
           </div>
-          {/* Additional login text with a link to Sign Up page */}
           <div className="login-text">
-            Are you a new member? <span><a href="/sign-up" style={{ color: "#2190FF" }}> Sign Up Here</a></span>
+            Are you a new member? 
+            <span style={{ marginLeft: "0.3rem" }}>
+              <Link to="/signup" style={{ color: '#2190FF' }}>
+                Sign Up Here
+              </Link>
+            </span>
           </div>
           <br />
-          {/* Div for login form */}
           <div className="login-form">
-            <form onSubmit={handleLogin}>
-              {/* Form group for email input */}
+            <form onSubmit={login}>
               <div className="form-group">
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
+                {/* Input field for email */}
+                <input 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  type="email" 
+                  name="email" 
+                  id="email" 
+                  className="form-control" 
+                  placeholder="Enter your email" 
+                  aria-describedby="helpId" 
+                />
+                {showerr.email && <div className="err" style={{ color: 'red' }}>{showerr.email}</div>}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                {/* Input field for password */}
                 <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    name="password"
+                    id="password"
                     className="form-control"
-                    placeholder="Enter your email"
+                    placeholder="Enter your password"
                     aria-describedby="helpId"
                 />
-                {emailErrMsg && (
-                    <>
-                        <br />
-                        <span style={{ color: "red" }}>{emailErrMsg}</span>
-                    </>
-                )}
+                {showerr.password && <div className="err" style={{ color: 'red' }}>{showerr.password}</div>}
               </div>
-              {/* Form group for password input */}
-              <div className="form-group">
-                <label for="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="form-control"
-                  placeholder="Enter your password"
-                  aria-describedby="helpId"
-                />
-                {passwordErrMsg && (
-                    <>
-                        <br />
-                        <span style={{ color: "red" }}>{passwordErrMsg}</span>
-                    </>
-                )}
-              </div>
-              {/* Button group for login and reset buttons */}
               <div className="btn-group">
-                <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">Login</button> 
-                <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light" onClick={handleReset}>Reset</button>
+                {/* Login button */}
+                <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">
+                  Login
+                </button>
+                {/* Reset button */}
+                <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light" onClick={handleReset}>
+                    Reset
+                </button>
               </div>
               <br />
               {/* Additional login text for 'Forgot Password' option */}
@@ -115,7 +135,8 @@ function Login() {
           </div>
         </div>
       </div>
+    </div>
   )
 }
 
-export default Login
+export default Login;

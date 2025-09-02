@@ -83,6 +83,7 @@ router.post('/register',[
 
 router.post('/login', [
     body('email', "Please Enter a Vaild Email").isEmail(),
+    body('password', "Password Should Be At Least 8 Characters.").isLength({ min: 8 }),
 ], async (req, res) => {
 
     const errors = validationResult(req);
