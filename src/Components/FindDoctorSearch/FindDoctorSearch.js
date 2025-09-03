@@ -54,12 +54,12 @@ const FindDoctorSearch = () => {
                             onChange={handleSearchOnChange}
                         />
                         
-                        <div className="findiconimg"><i class="fa fa-search" aria-hidden="true" style={{ fontSize: "1.5rem", padding: "0.4rem" }}></i></div>
+                        <div className="findiconimg"><i className="fa fa-search" aria-hidden="true" style={{ fontSize: "1.5rem", padding: "0.4rem" }}></i></div>
                         <div className="search-doctor-input-results" hidden={doctorResultHidden}>
                             {
                                 specialities.map(speciality =>
                                     <div className="search-doctor-result-item" key={speciality} onMouseDown={() => handleDoctorSelect(speciality)}>
-                                        <span><i class="fa fa-search" aria-hidden="true" style={{ fontSize: "1.2rem", padding: "0.2rem" }}></i></span>
+                                        <span><i className="fa fa-search" aria-hidden="true" style={{ fontSize: "1.2rem", padding: "0.2rem" }}></i></span>
                                         <span>{speciality}</span>
                                         <span>SPECIALITY</span>
                                     </div>
