@@ -82,7 +82,7 @@ const Navbar = () => {
                     {/* Navigation Item 'Appointments' */}
                     <li className="nav_item">
                         {/* Navigation Item Link */}
-                        <a href={"/"}>Appointments</a>
+                        <a href={"/appointments"}>Appointments</a>
                     </li>
                     {/* Navigation Item Sign Up */}
                     <li className="nav_item">
