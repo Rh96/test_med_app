@@ -62,7 +62,7 @@ const BookingConsultation = () => {
         <center>
             <div className="searchpage-container">
                 <FindDoctorSearch onSearch={handleSearch} />
-                <div className="search-results-container">
+                <div className="search-results-container" style={{ position: "relative", zIndex: "15" }}>
                     {isSearched ? (
                         <center>
                             <h2>{filteredDoctors.length} doctors are available {searchParams.get('location')}</h2>

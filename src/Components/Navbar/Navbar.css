@@ -10,6 +10,7 @@ nav {
     transform: translateX(-50%);
     width: 100%;
     background-color: #fff;
+    z-index: 50;
 }
 
 /* Styling for the dropdownmenu */
