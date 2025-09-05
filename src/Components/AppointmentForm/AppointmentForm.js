@@ -7,14 +7,33 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
     const [selectedSlot, setSelectedSlot] = useState(null);
   
     const handleSlotSelection = (slot) => {
-      setSelectedSlot(slot);
+      setSelectedSlot(slot.target.value);
+    };
+
+    const formatTimeWithAmPm = (time24) => {
+      if (!time24) return '';
+      
+      const [hours, minutes] = time24.split(':');
+      const date = new Date();
+      date.setHours(parseInt(hours, 10));
+      date.setMinutes(parseInt(minutes, 10));
+      
+      return date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
     };
   
     const handleFormSubmit = (e) => {
       e.preventDefault();
-      onSubmit({ name, phoneNumber });
+      const time = formatTimeWithAmPm(selectedSlot);
+
+      onSubmit({ name: doctorName, speciality: doctorSpeciality, patientName: name, phoneNumber, date: appointmentDate, time });
       setName('');
       setPhoneNumber('');
+      setAppointmentDate('');
+      setSelectedSlot(null);
     };
   
     return (
@@ -53,7 +72,7 @@ const AppointmentForm = ({ doctorName, doctorSpeciality, onSubmit }) => {
           <label htmlFor="time">Book Time Slot:</label>
           <input
             type="time"
-            id="datetime-local"
+            id="time"
             onChange={handleSlotSelection}
             required
           />

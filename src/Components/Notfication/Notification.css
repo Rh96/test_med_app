@@ -1,0 +1,22 @@
+.appointment-card {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    transform: translateY(50%);
+    background-color: dodgerblue;
+    color: white;
+}
+
+.appointment-card__content {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.appointment-card__title {
+    margin-bottom: 1rem;
+}
+
+.appointment-card__message {
+    width: 100%;
+}
