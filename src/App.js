@@ -5,6 +5,7 @@ import Login from './Components/Login/Login';
 import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultation';
 import BookingConsultation from './Components/BookingConsultation';
 import Notification from './Components/Notfication/Notification';
+import ReviewForm from "./Components/ReviewForm/ReviewForm";
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
 
             {/* Appointments Booking */}
             <Route path="/appointments" element={<BookingConsultation />} />
+
+            {/* Reviews */}
+            <Route path="/reviews" element={<ReviewForm />} />
           </Routes>
         </Notification>
       </BrowserRouter>
