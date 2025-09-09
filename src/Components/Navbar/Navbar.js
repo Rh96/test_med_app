@@ -95,6 +95,9 @@ const Navbar = () => {
                                     <li>
                                         <a href={"/profile"}>Your Profile</a>
                                     </li>
+                                    <li>
+                                        <a href={"/reports"}>Your Reports</a>
+                                    </li>
                                 </ul>
                             </div>
                         )}

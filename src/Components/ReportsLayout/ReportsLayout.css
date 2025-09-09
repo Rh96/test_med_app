@@ -1,0 +1,31 @@
+.reports-container {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1.5rem;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #f7f7f7;
+    border-bottom: 2px solid #cccccc;
+}
+
+thead > tr > th {
+    padding: 1rem;
+}
+
+tbody > tr {
+    border-bottom: 2px solid #cccccc;
+}
+
+tbody > tr > td {
+    padding: 1rem;
+}

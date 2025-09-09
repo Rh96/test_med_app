@@ -7,6 +7,7 @@ import BookingConsultation from './Components/BookingConsultation';
 import Notification from './Components/Notfication/Notification';
 import ReviewForm from "./Components/ReviewForm/ReviewForm";
 import ProfileCard from "./Components/ProfileCard/ProfileCard";
+import ReportsLayout from "./Components/ReportsLayout/ReportsLayout";
 
 function App() {
   return (
@@ -38,6 +39,9 @@ function App() {
 
             {/* Profile */}
             <Route path="/profile" element={<ProfileCard />} />
+            
+            {/* Reports Layout */}
+            <Route path="/reports" element={<ReportsLayout />} />
           </Routes>
         </Notification>
       </BrowserRouter>
