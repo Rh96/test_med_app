@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -12,7 +11,6 @@ const Navbar = () => {
     // True -> if the user is logged in, False -> if the user is logged out
     const [loginStatus, setLoginStatus] = useState(false);
     const [username, setUsername] = useState('');
-    const navigate = useNavigate(); // Navigation hook from react-router
 
     useEffect(() => {
         const token = sessionStorage.getItem("auth-token");
@@ -37,7 +35,6 @@ const Navbar = () => {
         sessionStorage.removeItem("email"); // optional if you store it
         setLoginStatus(false);
         setUsername(""); // reset username
-        navigate("/"); // send them to homepage
     };
 
     return (
@@ -92,7 +89,14 @@ const Navbar = () => {
                                 <button className="btn1">Sign Up</button>
                             </a>
                         ) : (
-                            `Welcome, ${username}`
+                            <div className="welcome-user">
+                                Welcome, {username}
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <a href={"/profile"}>Your Profile</a>
+                                    </li>
+                                </ul>
+                            </div>
                         )}
                     </li>
                     {/* Navigation Item 'Instant Consultation' */}
@@ -113,7 +117,7 @@ const Navbar = () => {
                                 <button className="btn1">Login</button>
                             </a>
                         ) : (
-                            <a>
+                            <a href={"/"}>
                                 <button className="btn1" onClick={handleLogout}>Logout</button>
                             </a>
                         )}
