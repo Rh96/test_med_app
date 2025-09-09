@@ -15,7 +15,8 @@ const ReportsLayout = () => {
                 patientName: "Rade Hrgovic",
                 phoneNumber: "7889787878979",
                 date: "2025-09-10",
-                time: "9:00 AM"
+                time: "9:00 AM",
+                report: "/dentist_report.pdf"
             },
             {
                 id: "b22494d7-9792-413221asd-asd-21313",
@@ -24,7 +25,8 @@ const ReportsLayout = () => {
                 patientName: "Rade Hrgovic",
                 phoneNumber: "7889787878979",
                 date: "2025-11-15",
-                time: "2:00 PM"
+                time: "2:00 PM",
+                report: "/dermatologist_report.pdf"
             },
         ]);
     }, []);
@@ -53,16 +55,16 @@ const ReportsLayout = () => {
                                     <td>{appointment.speciality}</td>
                                     <td>
                                         <div className="btn-group">
-                                            <button>
+                                            <button onClick={() => window.open(`${appointment.report}`, "_blank")}>
                                                 View Report
                                             </button>
                                         </div>
                                     </td>
                                     <td>
                                         <div className="btn-group">
-                                            <button>
-                                                Download Report
-                                            </button>
+                                            <a href={appointment.report} download>
+                                                <button>Download Report</button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
