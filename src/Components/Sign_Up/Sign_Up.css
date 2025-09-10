@@ -110,8 +110,16 @@
     color: #fff; /* Set text color for primary button */
 }
 
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
 /* Styles for danger button in the signup form */
 .btn-danger {
     background-color: #dc3545; /* Set background color for danger button */
     color: #fff; /* Set text color for danger button */
+}
+
+.btn-danger:hover {
+    background-color: #be2c3a;
 }

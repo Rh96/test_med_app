@@ -77,7 +77,7 @@ const Login = () => {
           <div className="login-text">
             Are you a new member? 
             <span style={{ marginLeft: "0.3rem" }}>
-              <Link to="/signup" style={{ color: '#2190FF' }}>
+              <Link to="/signup" style={{ color: '#2190FF', fontWeight: "600" }}>
                 Sign Up Here
               </Link>
             </span>

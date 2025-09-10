@@ -151,7 +151,7 @@ const ProfileCard = () => {
                         </label>
                     </div>
                     {/* Create similar logic for displaying and editing name and phone from userDetails */}
-                    <button type="submit" className="btn">Save</button>
+                    <button type="submit" className="btn btn-primary">Save</button>
                 </form>
             ) : (
                 <div className="view-mode">
@@ -166,7 +166,7 @@ const ProfileCard = () => {
                     <p>
                         <strong>Phone:</strong> {userDetails.phone}
                     </p>
-                    <button onClick={handleEdit} className="btn">
+                    <button onClick={handleEdit} className="btn btn-primary">
                         Edit
                     </button>
                 </div>
