@@ -1,41 +1,85 @@
-# Medical Appointment Booking
+# Medical Appointment Booking Website
 
-This is a Medical Appointment Booking System that allows patients to book, manage, and track their medical appointments online. The platform provides a user-friendly interface for patients to find healthcare providers, schedule visits, and receive confirmation notifications.
+This is a React-based web application that allows users to search for doctors by specialty, book appointments, and access a private area to manage personal information and leave reviews about doctors.
 
-# Features
+---
 
-* Medical appointments online
-    - The website must allow patients to schedule appointments with doctors anywhere, anytime.
-    - Consultation must be available doctors at any time should be possible without prior appointments.
-    - The patient/end-user must be able to view the different time slots when a doctor is available and select the time slot of their preference.
-    - The patient must get a reminder or notification on an upcoming appointment.
-    - The patient must have the ability to cancel or modify the appointment.
+## Features
 
-* Doctor listing for patients
-    - The patient/end-user must be able to view the available doctors with their ratings.
-    - The patient/end-user must be able to view the doctor's ratings and review comments.
-    - The patient/end-user must be able to search for a specific doctor by name.
+- Search for doctors by specialty  
+- View doctor profiles  
+- Book medical appointments  
+- Secure user authentication  
+- Private user area:  
+  - Manage personal data  
+  - Write and read doctor reviews  
 
-* Consultation Feedback
-    - The patient/end-user must be able to rate the consultation on effectiveness in terms of diagnosis, communication, and so on to contribute to the system's transparency and help other patients make informed choices.
+---
 
-* Profile Management
-    - A user must sign-up to make any appointment bookings.
-    - To book an appointment, a user must input mandatory details like name, address, phone number, age, blood group, and any existing medical records.
-    - The user must have the ability to update their details.
+## Getting Started
 
-* Access to patient records
-    - Only the doctor and patient must have access to patient records.
-    - Patients must be able to download their medical records, such as test reports.
+Follow these instructions to get the project up and running on your local machine.
 
-* News feeds and Training
-    - To keep patients informed of different medical health conditions and healthy lifestyles:
-        + Educational videos on various topics should be available and sorted by category.
-        + There are daily tips on healthy lifestyle and other preventive measures accessible.
+### 1. Clone the Repository
 
-* Navigation
-    - Users must be able to navigate the site with minimal clicks.
+Open a terminal and run:
 
-* Website Administration
-    - Users must be able to manage patient and doctor profiles, maintaining the system's security and integrity.
-    - Users must be able to generate reports and analytics on appointment bookings, patient demographics, and healthcare provider performance.
+```bash
+git clone <repository-url>
+cd grihf-frontend_capstone_starter_code
+```
+
+### 2. Install Dependencies
+
+Make sure you have Node.js installed. Then run:
+
+```bash
+npm install
+npm i reactjs-popup
+```
+
+### 3. Start backend MongoDB
+
+Once the installation is complete, start Backend:
+
+```bash
+cd server
+node index
+```
+
+### 4. Start the Development Server
+
+Once backend has started, start the app:
+
+```bash
+npm start
+```
+
+The app should now be running on [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Git Configuration and Commit Instructions
+
+Before making your first commit, set your global Git username and email:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+Then, save and commit your changes:
+
+```bash
+git add .
+git commit -m "Initial commit with README and setup"
+git push origin main
+```
+
+---
+
+## Notes
+
+- This project is part of the Frontend Capstone exercise.
+- Make sure to test all functionality before submission.
+- Ensure that the code is clean and well commented where necessary.
